@@ -13,7 +13,7 @@ import java.util.UUID;
 public class FlightCustomer {
 
     @Id
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id",columnDefinition = "VARCHAR(36)", updatable = false, nullable = false)
     private UUID id;
 
     @Column(name = "flight_number")
@@ -33,10 +33,12 @@ public class FlightCustomer {
     @Temporal(TemporalType.TIMESTAMP)
     private Date arrivalTime;
 
-    @OneToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
     private Customer customer;
 
     @OneToMany(mappedBy = "flightCustomer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Complaint> complaints;
+
+    public FlightCustomer(){}
 }

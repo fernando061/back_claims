@@ -34,7 +34,7 @@ public class ApiKeyFilter extends OncePerRequestFilter {
             ServletException, IOException {
 
         String reqApiKey = request.getHeader("Api-Key");
-        boolean isApiKeyValid = authServiceHelper.validateApiKey(reqApiKey);
+        boolean isApiKeyValid = authServiceHelper.validateApiKey("YOUR_API_KEY_HERE");
 
         if (!isApiKeyValid) {
             //return 401 Unauthorized

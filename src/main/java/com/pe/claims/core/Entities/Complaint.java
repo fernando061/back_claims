@@ -12,7 +12,7 @@ import java.util.UUID;
 public class Complaint {
 
     @Id
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id",columnDefinition = "VARCHAR(36)", updatable = false, nullable = false)
     private UUID id;
 
     @Column(name = "registration_date")

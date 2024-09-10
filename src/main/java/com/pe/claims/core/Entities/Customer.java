@@ -4,7 +4,9 @@ import com.pe.claims.core.ValueObject.EmailValueObject;
 import com.pe.claims.core.ValueObject.UUIDValueObject;
 import jakarta.persistence.*;
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -13,7 +15,8 @@ import java.util.UUID;
 public class Customer {
 
     @Id
-    @Column(name = "id", updatable = false, nullable = false)
+    @Column(name = "id",columnDefinition = "VARCHAR(36)", updatable = false, nullable = false)
+
     private UUID id;
 
     @Column(name = "name", nullable = false)
@@ -27,10 +30,17 @@ public class Customer {
 
     @Column(name = "email", nullable = false, unique = true)
     private String email;
+    @Column(name = "document_number", nullable = false,unique = true)
+    private String documentNumber;
 
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private FlightCustomer flightCustomer;
 
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<FlightCustomer> flightCustomers;
+
+    public Customer() {
+    }
     public Customer(String id, String name, String phone, String countryCode, String email) {
         this.id = new UUIDValueObject(id).getId();
         this.name = name;
