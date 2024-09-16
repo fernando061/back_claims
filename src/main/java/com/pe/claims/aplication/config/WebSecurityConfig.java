@@ -37,9 +37,12 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(requests ->
                 requests.requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
                         .requestMatchers(new AntPathRequestMatcher(Routes.WEB_INDEX)).permitAll()
+                        .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()  // Permitir acceso a Swagger UI y API docs
+                        .requestMatchers("/swagger-ui-custom.html").permitAll()
                         .anyRequest().authenticated()
         );
-
+        // Deshabilita CSRF si es necesario para la API REST
+        http.csrf(csrf -> csrf.disable());
         //since this is an API, configure it to be stateless
         http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
 

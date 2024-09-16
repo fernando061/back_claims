@@ -26,6 +26,17 @@ public class ApiKeyFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         var path = request.getRequestURI();
+        // Verificar si la ruta es una de las rutas permitidas para Swagger
+       if (path.startsWith("/swagger-ui/") ||
+                path.startsWith("/v3/api-docs/") ||
+                path.equals("/swagger-ui.html") ||
+                path.equals("/swagger-ui/index.html") ||
+                path.equals("/webjars/springfox-swagger-ui/") ||
+                path.startsWith("/swagger-resources/")) {
+            return true;
+        }
+
+        // Verificar si la ruta debería ser filtrada basándose en el prefijo de configuración
         return !path.startsWith(config.getPathPrefix());
     }
 
@@ -34,7 +45,7 @@ public class ApiKeyFilter extends OncePerRequestFilter {
             ServletException, IOException {
 
         String reqApiKey = request.getHeader("Api-Key");
-        boolean isApiKeyValid = authServiceHelper.validateApiKey("YOUR_API_KEY_HERE");
+        boolean isApiKeyValid = authServiceHelper.validateApiKey(reqApiKey);
 
         if (!isApiKeyValid) {
             //return 401 Unauthorized

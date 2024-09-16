@@ -4,18 +4,12 @@ import com.pe.claims.core.Entities.Customer;
 import com.pe.claims.core.Entities.FlightCustomer;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 import com.pe.claims.infraestructure.Repository.FlightCustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.pe.claims.core.Interfaces.IFlightCustomerService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -34,10 +28,10 @@ public class FlightCustomerService extends  GenericService<FlightCustomer> imple
     @Override
     public FlightCustomer findByFlightNumberAndCustomerDocumentNumber(String flightNumber, String documentNumber) {
         try{
-            List<FlightCustomer> lst =  this.flightCustomerRepository.findByFlightNumberAndCustomerDocumentNumber(flightNumber,documentNumber).stream().toList();
-            Customer customer = lst.get(0).getCustomer();
-            return lst.get(0);//entityManager.createQuery(query).getResultList().stream().findFirst();
-        } catch (Exception e) {
+            Optional<FlightCustomer> customResponse = this.flightCustomerRepository.findByFlightNumberAndCustomerDocumentNumber(flightNumber, documentNumber);
+            if (customResponse.isPresent()) return customResponse.get();
+            throw new RuntimeException("FlightCustomer not found");
+        } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
 
