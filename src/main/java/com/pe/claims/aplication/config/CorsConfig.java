@@ -20,13 +20,15 @@ public class CorsConfig {
         final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         final CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.addAllowedOrigin(hostorigen);
-        config.addAllowedOrigin(hostorigenprod);
+        config.addAllowedOriginPattern("*");
+        //config.addAllowedOrigin(hostorigenprod);
+        //onfig.addAllowedOrigin(hostorigen);
         config.addAllowedHeader("*");
         config.addAllowedMethod("GET");
         config.addAllowedMethod("PUT");
         config.addAllowedMethod("POST");
         config.addAllowedMethod("DELETE");
+        config.addAllowedMethod("OPTIONS");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }

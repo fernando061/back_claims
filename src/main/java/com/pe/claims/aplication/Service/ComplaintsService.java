@@ -1,6 +1,7 @@
 package com.pe.claims.aplication.Service;
 
 import com.pe.claims.aplication.DTO.RegisterClaimDto;
+import com.pe.claims.aplication.DTO.RegisterClaimDtoResponse;
 import com.pe.claims.aplication.DTO.SearchClaimDtoRequest;
 import com.pe.claims.aplication.DTO.SearchClaimDtoResponse;
 import com.pe.claims.aplication.Mapper.ClaimMapper;
@@ -40,7 +41,7 @@ public class ComplaintsService implements IcomplaintService{
     @Autowired
     S3Service s3Service;
     @Override
-    public String RegisterClaim(RegisterClaimDto registerClaimDto) {
+    public RegisterClaimDtoResponse RegisterClaim(RegisterClaimDto registerClaimDto) {
         try {
             String urlFile = s3Service.UploadFile(registerClaimDto.getFile());
             String claimCode;
@@ -57,7 +58,9 @@ public class ComplaintsService implements IcomplaintService{
             complaint.setFlightCustomer(flightCustomer);
             complaintService.ComplaintSave(complaint);
             emailService.sendEmail(registerClaimDto.getEmail(), "Estimado pasajero;","Su reclamo fue registrado exitosamente",claimCode);
-            return claimCode;
+            RegisterClaimDtoResponse registerDto = new RegisterClaimDtoResponse();
+            registerDto.setClaimCode(claimCode);
+            return registerDto;
         }catch (Exception e){
             throw  new RuntimeException(e.getMessage());
         }

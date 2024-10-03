@@ -44,10 +44,17 @@ public class ApiKeyFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws
             ServletException, IOException {
 
+//        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+//            // Si es una solicitud preflight, permite que pase sin validar la API key
+//            filterChain.doFilter(request, response);
+//            //response.setStatus(HttpServletResponse.SC_OK);
+//            return;
+//        }
+
         String reqApiKey = request.getHeader("Api-Key");
         boolean isApiKeyValid = authServiceHelper.validateApiKey(reqApiKey);
 
-        if (!isApiKeyValid) {
+        if (!"OPTIONS".equalsIgnoreCase(request.getMethod()) & !isApiKeyValid) {
             //return 401 Unauthorized
             response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid API Key");
             return;
