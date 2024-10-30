@@ -1,5 +1,6 @@
 package com.pe.claims.infraestructure.Service;
 
+import com.pe.claims.core.Entities.Complaint;
 import com.pe.claims.core.Entities.Customer;
 import com.pe.claims.core.Entities.FlightCustomer;
 import javax.persistence.EntityManager;
@@ -10,7 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.pe.claims.core.Interfaces.IFlightCustomerService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class FlightCustomerService extends  GenericService<FlightCustomer> implements IFlightCustomerService {
@@ -36,4 +39,17 @@ public class FlightCustomerService extends  GenericService<FlightCustomer> imple
         }
 
     }
+
+    @Override
+    public List<FlightCustomer> findByCustomerId(UUID customerId) {
+       return flightCustomerRepository.findByCustomerId(customerId);
+    }
+
+    @Override
+    public List<UUID> findIdsByCustomerId(UUID customerId) {
+        return flightCustomerRepository.findIdsByCustomerId(customerId);
+    }
+
+
+
 }

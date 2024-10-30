@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ComplaintService extends  GenericService<Complaint> implements IComplaintService {
@@ -31,6 +33,21 @@ public class ComplaintService extends  GenericService<Complaint> implements ICom
     @Override
     public Boolean existsByClaimCode(String claimCode) {
         return  complaintRepository.existsByClaimCode(claimCode);
+    }
+
+    @Override
+    public Complaint findByDocumentNumberAndClaimcode(String claimCode, String documentNumber) {
+        try{
+            var complaint = complaintRepository.findByDocumentNumberAndClaimcode(claimCode,documentNumber);
+            if(complaint.isPresent()) return complaint.get();
+            throw new RuntimeException("complaint not found");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @Override
+    public List<Complaint> findByFlightCustomerIdIn(List<UUID> ids) {
+        return complaintRepository.findByFlightCustomerIdIn(ids);
     }
 
 

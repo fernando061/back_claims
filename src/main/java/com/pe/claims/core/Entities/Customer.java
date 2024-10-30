@@ -1,5 +1,6 @@
 package com.pe.claims.core.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.pe.claims.core.ValueObject.EmailValueObject;
 import com.pe.claims.core.ValueObject.UUIDValueObject;

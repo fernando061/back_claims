@@ -1,9 +1,7 @@
 package com.pe.claims.aplication.Service;
 
-import com.pe.claims.aplication.DTO.RegisterClaimDto;
-import com.pe.claims.aplication.DTO.RegisterClaimDtoResponse;
-import com.pe.claims.aplication.DTO.SearchClaimDtoRequest;
-import com.pe.claims.aplication.DTO.SearchClaimDtoResponse;
+import com.pe.claims.aplication.DTO.*;
+import com.pe.claims.aplication.Helpers.JwtUtil;
 import com.pe.claims.aplication.Mapper.ClaimMapper;
 import com.pe.claims.core.Entities.Complaint;
 import com.pe.claims.core.Entities.FlightCustomer;
@@ -23,9 +21,6 @@ public class ComplaintsService implements IcomplaintService{
 
     @Autowired
     private ClaimMapper claimMapper;
-
-    @Autowired
-    private CustomerService customerService;
 
     @Autowired
     private ComplaintService complaintService;
@@ -70,7 +65,6 @@ public class ComplaintsService implements IcomplaintService{
     public SearchClaimDtoResponse findByFlightNumberAndCustomerDocumentNumber(SearchClaimDtoRequest searchClaimDtoRequest) {
         return claimMapper.toSearchClaimDtoResponse(flightCustomerService.findByFlightNumberAndCustomerDocumentNumber(searchClaimDtoRequest.getFlightNumber(), searchClaimDtoRequest.getDocumentNumber()));
     }
-
 
     private static String GenerateClaimCode() {
         String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

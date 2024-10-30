@@ -12,4 +12,5 @@ import org.springframework.context.annotation.Configuration;
 public class ApiKeyFilterConfig {
 
     private String pathPrefix;
+    private String pathPrefixTwo;
 }

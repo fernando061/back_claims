@@ -22,4 +22,8 @@ public interface FlightCustomerRepository extends JpaRepository<FlightCustomer, 
                                                                          String flightNumber,
                                                                          @Param("documentNumber")
                                                                          String documentNumber);
+    List<FlightCustomer> findByCustomerId(UUID customerId);
+
+    @Query("SELECT fc.id FROM FlightCustomer fc WHERE fc.customer.id = :customerId")
+    List<UUID> findIdsByCustomerId(@Param("customerId") UUID customerId);
 }

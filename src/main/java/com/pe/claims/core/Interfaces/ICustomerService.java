@@ -2,6 +2,9 @@ package com.pe.claims.core.Interfaces;
 
 import com.pe.claims.core.Entities.Customer;
 
-public interface ICustomerService  extends IGenericRepository<Customer>{
+import java.util.UUID;
 
+public interface ICustomerService  extends IGenericRepository<Customer>{
+    Customer findByDocumentNumber(String documentNumber);
+    Customer findById(UUID id);
 }

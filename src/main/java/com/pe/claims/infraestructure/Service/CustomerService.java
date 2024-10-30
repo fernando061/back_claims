@@ -24,4 +24,17 @@ public class CustomerService extends  GenericService<Customer> implements ICusto
         return null;
     }
 
+    @Override
+    public Customer findByDocumentNumber(String documentNumber) {
+        var customer = customerRepository.findByDocumentNumber(documentNumber);
+        if(customer.isPresent()) return customer.get();
+        throw new RuntimeException("customer not found");
+    }
+
+    @Override
+    public Customer findById(UUID id) {
+        var customer =customerRepository.findById(id);
+        if(customer.isPresent()) return customer.get();
+        throw new RuntimeException("customer not found");
+    }
 }

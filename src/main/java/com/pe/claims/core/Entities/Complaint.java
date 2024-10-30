@@ -35,6 +35,7 @@ public class Complaint {
     @Column(name = "url_file", columnDefinition = "TEXT")
     private String urlFile;
 
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "flight_customer_id",columnDefinition = "VARCHAR(36)", insertable = false, updatable = false,nullable = false)
     private UUID flightCustomerId;
 

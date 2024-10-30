@@ -1,9 +1,7 @@
 package com.pe.claims.aplication.Controller;
 
-import com.pe.claims.aplication.DTO.RegisterClaimDto;
-import com.pe.claims.aplication.DTO.RegisterClaimDtoResponse;
-import com.pe.claims.aplication.DTO.SearchClaimDtoRequest;
-import com.pe.claims.aplication.DTO.SearchClaimDtoResponse;
+import com.pe.claims.aplication.DTO.*;
+import com.pe.claims.aplication.Helpers.JwtUtil;
 import com.pe.claims.aplication.Service.ComplaintsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -18,7 +16,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
-public class ReclamoController {
+public class ClaimController {
 
 
 
@@ -50,4 +48,5 @@ public class ReclamoController {
     public ResponseEntity<String> UUIDGenerate() {
         return ResponseEntity.ok(UUID.randomUUID().toString());
     }
+
 }
