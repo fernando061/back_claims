@@ -4,11 +4,12 @@ import com.pe.claims.aplication.DTO.CustomerComplaintDtoResponse;
 import com.pe.claims.aplication.DTO.LoginUserRequestDto;
 import com.pe.claims.aplication.DTO.LoginUserResponseDto;
 import com.pe.claims.aplication.Helpers.JwtUtil;
+import com.pe.claims.aplication.Interface.ICustomerService;
 import com.pe.claims.aplication.Mapper.ClaimMapper;
 import com.pe.claims.core.Entities.FlightCustomer;
-import com.pe.claims.infraestructure.Repository.FlightCustomerRepository;
 import com.pe.claims.infraestructure.Service.ComplaintService;
 import com.pe.claims.infraestructure.Service.CustomerService;
+import com.pe.claims.infraestructure.Service.FlightCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,7 @@ import java.util.Arrays;
 import java.util.UUID;
 
 @Service
-public class CustomersService implements ICustomerService{
+public class CustomersService implements ICustomerService {
 
     @Autowired
     private ClaimMapper claimMapper;
@@ -26,8 +27,11 @@ public class CustomersService implements ICustomerService{
     @Autowired
     private ComplaintService complaintService;
 
+    /*@Autowired
+    FlightCustomerRepository flightCustomerRepository;*/
+
     @Autowired
-    FlightCustomerRepository flightCustomerRepository;
+    FlightCustomerService flightCustomerService;
 
     @Override
     public LoginUserResponseDto findByDocumentNumberAndClaimcode(LoginUserRequestDto loginClient) {
@@ -61,7 +65,7 @@ public class CustomersService implements ICustomerService{
     public CustomerComplaintDtoResponse customerComplaint(String customerID) {
         UUID customerId = UUID.fromString(customerID);
         var customer = customerService.findById(customerId);
-        var flightCustomers = flightCustomerRepository.findByCustomerId(customerId);
+        var flightCustomers = flightCustomerService.findByCustomerId(customerId);
         var uuidsFlightCustomer = Arrays.stream(flightCustomers.stream().map(FlightCustomer::getId).toArray(UUID[]::new)).toList();
         var complainst = complaintService.findByFlightCustomerIdIn(uuidsFlightCustomer);
 

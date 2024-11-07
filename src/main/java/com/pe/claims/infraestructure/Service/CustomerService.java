@@ -18,11 +18,6 @@ public class CustomerService extends  GenericService<Customer> implements ICusto
         this.customerRepository = customerRepository;
     }
 
-    @Override
-    public Customer testFindById(UUID id) {
-        customerRepository.save(null);
-        return null;
-    }
 
     @Override
     public Customer findByDocumentNumber(String documentNumber) {

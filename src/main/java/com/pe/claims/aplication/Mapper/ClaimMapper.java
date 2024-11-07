@@ -1,9 +1,11 @@
 package com.pe.claims.aplication.Mapper;
 
 import com.pe.claims.aplication.DTO.*;
+import com.pe.claims.aplication.Helpers.EnumStatus;
 import com.pe.claims.core.Entities.Complaint;
 import com.pe.claims.core.Entities.Customer;
 import com.pe.claims.core.Entities.FlightCustomer;
+import com.pe.claims.core.Entities.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -111,5 +113,17 @@ public class ClaimMapper {
         response.setDocumentNumber(customer.getDocumentNumber());
 
         return response;
+    }
+
+    public User toUser(EmployeeRegistrationRequestDto employeDto){
+        User user =new User();
+        user.setDocument(employeDto.getDocument());
+        user.setName(employeDto.getName());
+        user.setLastName(employeDto.getLastName());
+        user.setLastNameTwo(employeDto.getLastNameTwo());
+        user.setEmail(employeDto.getEmail());
+        user.setPhoneNumber(employeDto.getPhoneNumber());
+        user.setStatus(User.Status.ACTIVE);
+        return  user;
     }
 }

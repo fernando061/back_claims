@@ -6,8 +6,5 @@ import java.util.UUID;
 
 public class GenericService<T>  implements IGenericRepository<T> {
 
-    @Override
-    public T testFindById(UUID id) {
-        return null;
-    }
+
 }

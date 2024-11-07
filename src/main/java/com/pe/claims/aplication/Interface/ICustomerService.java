@@ -1,4 +1,4 @@
-package com.pe.claims.aplication.Service;
+package com.pe.claims.aplication.Interface;
 
 import com.pe.claims.aplication.DTO.CustomerComplaintDtoResponse;
 import com.pe.claims.aplication.DTO.LoginUserRequestDto;

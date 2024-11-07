@@ -1,13 +1,12 @@
 package com.pe.claims.aplication.Service;
 
 import com.pe.claims.aplication.DTO.*;
-import com.pe.claims.aplication.Helpers.JwtUtil;
+import com.pe.claims.aplication.Interface.IcomplaintService;
 import com.pe.claims.aplication.Mapper.ClaimMapper;
 import com.pe.claims.core.Entities.Complaint;
 import com.pe.claims.core.Entities.FlightCustomer;
 import com.pe.claims.infraestructure.Repository.FlightCustomerRepository;
 import com.pe.claims.infraestructure.Service.ComplaintService;
-import com.pe.claims.infraestructure.Service.CustomerService;
 import com.pe.claims.infraestructure.Service.FlightCustomerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import java.security.SecureRandom;
 
 
 @Service
-public class ComplaintsService implements IcomplaintService{
+public class ComplaintsService implements IcomplaintService {
 
     @Autowired
     private ClaimMapper claimMapper;
