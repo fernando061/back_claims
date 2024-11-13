@@ -6,4 +6,5 @@ public interface IUserService {
 
     void save(User user);
     User findByEmail(String email);
+    User findByDocument(String document);
 }

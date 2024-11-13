@@ -10,5 +10,6 @@ public interface IComplaintService extends IGenericRepository<Complaint>{
     Boolean existsByClaimCode(String claimCode);
     Complaint findByDocumentNumberAndClaimcode(String claimCode, String documentNumber);
     List<Complaint> findByFlightCustomerIdIn(List<UUID> ids);
+    Complaint findById(UUID id);
 }
 

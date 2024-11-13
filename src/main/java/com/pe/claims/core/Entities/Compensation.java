@@ -7,26 +7,23 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
-import javax.persistence.Table;
+import java.util.Date;
 import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "user_role")
-public class UserRole {
+@Table(name = "compensation")
+public class Compensation {
     @Id
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "id",columnDefinition = "VARCHAR(36)", updatable = false, nullable = false)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_document", nullable = false)
-    private User user;
+    @Column(name = "name",nullable = false)
+    private String name;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "role_id", nullable = false)
-    private Role role;
-
+    @Column(name = "description")
+    private String description;
 }

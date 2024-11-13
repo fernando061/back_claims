@@ -10,6 +10,7 @@ import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -49,6 +50,6 @@ public class FlightCustomer {
 
     @OneToMany(mappedBy = "flightCustomer", cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
-    private Set<Complaint> complaints = new ConcurrentSkipListSet<Complaint>();
+    private List<Complaint> complaints;
 
 }

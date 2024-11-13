@@ -27,9 +27,6 @@ public class CustomersService implements ICustomerService {
     @Autowired
     private ComplaintService complaintService;
 
-    /*@Autowired
-    FlightCustomerRepository flightCustomerRepository;*/
-
     @Autowired
     FlightCustomerService flightCustomerService;
 

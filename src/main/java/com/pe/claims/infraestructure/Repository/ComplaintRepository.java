@@ -2,6 +2,7 @@ package com.pe.claims.infraestructure.Repository;
 
 import com.pe.claims.core.Entities.Complaint;
 import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -25,4 +26,8 @@ public interface ComplaintRepository extends JpaRepository<Complaint, UUID> {
 
     @Query("SELECT c FROM Complaint c WHERE c.flightCustomerId IN :ids")
     List<Complaint> findByFlightCustomerIdIn(@Param("ids") List<UUID> ids);
+
+    @Override
+    @EntityGraph(attributePaths = {"flightCustomer", "flightCustomer.customer"})
+    Optional<Complaint> findById(UUID id);
 }

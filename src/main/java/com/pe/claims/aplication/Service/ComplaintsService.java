@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
+import java.util.UUID;
 
 
 @Service
@@ -51,7 +52,7 @@ public class ComplaintsService implements IcomplaintService {
 
             complaint.setFlightCustomer(flightCustomer);
             complaintService.ComplaintSave(complaint);
-            emailService.sendEmail(registerClaimDto.getEmail(), "Estimado pasajero;","Su reclamo fue registrado exitosamente",claimCode);
+            emailService.sendEmail(registerClaimDto.getEmail(), "Estimado pasajero;","Su reclamo fue registrado exitosamente",complaint.getClaimCode());
             RegisterClaimDtoResponse registerDto = new RegisterClaimDtoResponse();
             registerDto.setClaimCode(claimCode);
             return registerDto;
@@ -63,6 +64,11 @@ public class ComplaintsService implements IcomplaintService {
     @Override
     public SearchClaimDtoResponse findByFlightNumberAndCustomerDocumentNumber(SearchClaimDtoRequest searchClaimDtoRequest) {
         return claimMapper.toSearchClaimDtoResponse(flightCustomerService.findByFlightNumberAndCustomerDocumentNumber(searchClaimDtoRequest.getFlightNumber(), searchClaimDtoRequest.getDocumentNumber()));
+    }
+
+    @Override
+    public ComplaintDtoResponse findById(UUID id) {
+        return claimMapper.toComplaintDtoResponse(complaintService.findById(id));
     }
 
     private static String GenerateClaimCode() {

@@ -1,9 +1,6 @@
 package com.pe.claims.core.Entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +10,7 @@ import org.hibernate.type.SqlTypes;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import java.util.List;
 import java.util.Set;
 
 
@@ -48,8 +46,8 @@ public class User {
     @Column(name = "status", length = 50, nullable = false)
     private Status status;
 
-    @OneToMany(mappedBy = "user")
-    private Set<UserRole> userRoles;
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "user")
+    private List<UserRole> userRoles;
     // Define el enum Status
     public enum Status {
         ACTIVE,

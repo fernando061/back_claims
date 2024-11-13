@@ -38,6 +38,7 @@ public class ComplaintService extends  GenericService<Complaint> implements ICom
     @Override
     public Complaint findByDocumentNumberAndClaimcode(String claimCode, String documentNumber) {
         try{
+
             var complaint = complaintRepository.findByDocumentNumberAndClaimcode(claimCode,documentNumber);
             if(complaint.isPresent()) return complaint.get();
             throw new RuntimeException("complaint not found");
@@ -48,6 +49,17 @@ public class ComplaintService extends  GenericService<Complaint> implements ICom
     @Override
     public List<Complaint> findByFlightCustomerIdIn(List<UUID> ids) {
         return complaintRepository.findByFlightCustomerIdIn(ids);
+    }
+
+    @Override
+    public Complaint findById(UUID id) {
+        try{
+            var complaint = complaintRepository.findById(id);
+            if(complaint.isPresent()) return complaint.get();
+            throw new RuntimeException("complaint not found");
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

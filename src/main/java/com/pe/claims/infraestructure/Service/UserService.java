@@ -22,4 +22,9 @@ public class UserService implements IUserService {
         return userRepository.findByEmail(email);
     }
 
+    @Override
+    public User findByDocument(String document) {
+        return userRepository.findByDocument(document);
+    }
+
 }

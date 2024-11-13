@@ -4,10 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.UUID;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginUserResponseDto {
-    private CustomerDto customer;
-    private String token;
+public class ManageclaimDtoRequest {
+    private UUID id;
+    private String status;
 }

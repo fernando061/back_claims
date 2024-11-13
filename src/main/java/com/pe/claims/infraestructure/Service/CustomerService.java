@@ -6,6 +6,7 @@ import com.pe.claims.infraestructure.Repository.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -31,5 +32,12 @@ public class CustomerService extends  GenericService<Customer> implements ICusto
         var customer =customerRepository.findById(id);
         if(customer.isPresent()) return customer.get();
         throw new RuntimeException("customer not found");
+    }
+
+    @Override
+    public List<Customer> findAllWhereComplaintExist() {
+       // return customerRepository.findAllWhereComplaintExist();
+        var a =customerRepository.findAll().stream().toList();
+        return a;
     }
 }

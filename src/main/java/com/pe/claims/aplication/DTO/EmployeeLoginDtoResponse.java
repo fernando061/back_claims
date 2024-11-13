@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginUserResponseDto {
-    private CustomerDto customer;
+public class EmployeeLoginDtoResponse {
+    private EmployeeDto employee;
     private String token;
 }

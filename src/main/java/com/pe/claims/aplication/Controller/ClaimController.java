@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -44,9 +45,17 @@ public class ClaimController {
         return ResponseEntity.ok(complaintsService.RegisterClaim(registerClaimDto));
     }
 
+    @GetMapping("${path.claim}/{complaintId}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLAIMS_ANALYST','ROLE_CUSTOMER')")
+    public ResponseEntity<ComplaintDtoResponse> findById(@PathVariable UUID complaintId){
+        return  ResponseEntity.ok(complaintsService.findById(complaintId));
+    }
+
     @GetMapping("${path.claim.UUIDGenerate}")
     public ResponseEntity<String> UUIDGenerate() {
         return ResponseEntity.ok(UUID.randomUUID().toString());
     }
+
+
 
 }

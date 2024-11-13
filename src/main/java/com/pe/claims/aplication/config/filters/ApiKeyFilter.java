@@ -2,27 +2,61 @@ package com.pe.claims.aplication.config.filters;
 
 import com.pe.claims.aplication.Helpers.ClientAuthenticationHelper;
 import com.pe.claims.aplication.Helpers.JwtUtil;
+import com.pe.claims.aplication.Mapper.ClaimMapper;
+import com.pe.claims.core.Entities.UserRole;
+import com.pe.claims.infraestructure.Service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
+@Component
 public class ApiKeyFilter extends OncePerRequestFilter {
 
+//    private final ClientAuthenticationHelper authServiceHelper;
+//    private final ApiKeyFilterConfig config;
+
+//    @Autowired
+//    private UserService userService;
+//
+//    @Autowired
+//    private ClaimMapper claimMapper;
+//    public ApiKeyFilter(ClientAuthenticationHelper authServiceHelper, ApiKeyFilterConfig config) {
+//        this.authServiceHelper = authServiceHelper;
+//        this.config = config;
+//
+//    }
     private final ClientAuthenticationHelper authServiceHelper;
     private final ApiKeyFilterConfig config;
+    private final UserService userService; // Esto se inyectará a través del constructor
+    private final ClaimMapper claimMapper; // Esto también se inyectará
 
-    public ApiKeyFilter(ClientAuthenticationHelper authServiceHelper, ApiKeyFilterConfig config) {
+    @Autowired
+    public ApiKeyFilter(ClientAuthenticationHelper authServiceHelper,
+                        ApiKeyFilterConfig config,
+                        UserService userService,
+                        ClaimMapper claimMapper) {
         this.authServiceHelper = authServiceHelper;
         this.config = config;
+        this.userService = userService;
+        this.claimMapper = claimMapper;
     }
+
+
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
@@ -59,11 +93,25 @@ public class ApiKeyFilter extends OncePerRequestFilter {
             String token = authHeader.substring(7);
             try {
                 String customerName = jwtUtil.extractUsername(token);
+                String document = jwtUtil.extractDocumentNumber(token);
                 boolean isTokenValid = jwtUtil.validateToken(token,customerName);
 
                 if (isTokenValid) {
+
+                    var user = userService.findByDocument(document);
+                    List<GrantedAuthority> authorities;
+                    if(user!=null){
+                        authorities = user.getUserRoles().stream()
+                                .map(userRole -> new SimpleGrantedAuthority(userRole.getRole().getName()))
+                                .collect(Collectors.toList());
+                    }
+                    else{
+                        authorities = List.of(new SimpleGrantedAuthority("ROLE_CUSTOMER"));
+                    }
+
+
                     var authenticationToken = new UsernamePasswordAuthenticationToken(customerName,
-                            null, null);
+                            null, authorities);
                     SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                 } else {
                     response.sendError(HttpStatus.UNAUTHORIZED.value(), "Invalid Bearer Token");
