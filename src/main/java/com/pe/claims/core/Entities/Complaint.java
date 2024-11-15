@@ -29,6 +29,12 @@ public class Complaint {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "compensation_name")
+    private String compensationName;
+
+    @Column(name = "compensation_description")
+    private String compensationDescription;
+
     @Column(name = "status")
     private String status;
 

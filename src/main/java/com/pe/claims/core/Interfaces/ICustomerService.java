@@ -9,4 +9,5 @@ public interface ICustomerService  extends IGenericRepository<Customer>{
     Customer findByDocumentNumber(String documentNumber);
     Customer findById(UUID id);
     List<Customer> findAllWhereComplaintExist();
+    void updateCustomerEmail(UUID id, String newEmail);
 }

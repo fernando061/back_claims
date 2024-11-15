@@ -27,5 +27,8 @@ public class ComplaintDto {
     private Date departureTime;
     private Date arrivalTime;
 
+    private String compensationName;
+    private String compensationDescription;
+
 
 }

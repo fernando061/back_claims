@@ -18,4 +18,5 @@ public class RegisterClaimDto {
     private String email;
     private String description;
     private MultipartFile file;
+    private UUID customerId;
 }

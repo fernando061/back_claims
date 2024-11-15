@@ -37,6 +37,12 @@ public class EmployeeService implements IEmployeeService {
     @Autowired
     private ComplaintService complaintService;
 
+    @Autowired
+    private CompensationService compensationService;
+
+    @Autowired
+    EmailService emailService;
+
     @Transactional
     @Override
     public void EmployeeRegister(EmployeeRegistrationRequestDto employeeRegistrationRequestDto) {
@@ -118,13 +124,29 @@ public class EmployeeService implements IEmployeeService {
 
     @Override
     public StatusMessageResponse manageClaim(ManageclaimDtoRequest manageClaim) {
-        StatusMessageResponse statusMessage = new StatusMessageResponse();
-        var complaint = complaintService.findById(manageClaim.getId());
-        complaint.setStatus(manageClaim.getStatus());
-        complaintService.ComplaintSave(complaint);
-        statusMessage.setMessage("Proceso registrado exitosamente");
-        statusMessage.setStatus(true);
-        return statusMessage;
+        try{
+            StatusMessageResponse statusMessage = new StatusMessageResponse();
+            var complaint = complaintService.findById(manageClaim.getId());
+
+
+            complaint.setStatus(manageClaim.getStatus());
+            if(manageClaim.getStatus().equals("RESOLVED")){
+                var compensation = compensationService.findById(manageClaim.getCompensationId());
+                complaint.setCompensationName(compensation.getName());
+                complaint.setCompensationDescription(compensation.getDescription());
+                emailService.sendEmail(manageClaim.getEmail(), "Estimado pasajero;",
+                        "Su reclamo fue aprovado con la compensacion: "+compensation.getName(),complaint.getClaimCode());
+            }
+
+            complaintService.ComplaintSave(complaint);
+            statusMessage.setMessage("Proceso registrado exitosamente");
+            statusMessage.setStatus(true);
+            return statusMessage;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
 

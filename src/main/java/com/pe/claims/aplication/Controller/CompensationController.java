@@ -19,7 +19,7 @@ public class CompensationController {
     @Autowired
     CompensationsService compensationService;
 
-    @GetMapping("${path.compensation.list}")
+    @GetMapping("${path.compensation}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLAIMS_ANALYST')")
     public ResponseEntity<List<Compensation>> compensationList(){
         return ResponseEntity.ok(compensationService.findAll());

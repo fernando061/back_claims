@@ -19,8 +19,6 @@ import java.util.UUID;
 @RequestMapping("/api")
 public class ClaimController {
 
-
-
     @Autowired
     private ComplaintsService complaintsService;
 
@@ -28,6 +26,7 @@ public class ClaimController {
     public ResponseEntity<SearchClaimDtoResponse> searchClaim(@RequestBody SearchClaimDtoRequest searchClaim) {
         return ResponseEntity.ok(complaintsService.findByFlightNumberAndCustomerDocumentNumber(searchClaim));
     }
+
     @Operation(
             summary = "Register a new claim",
             description = "Allows registering a claim along with an image",
@@ -47,15 +46,13 @@ public class ClaimController {
 
     @GetMapping("${path.claim}/{complaintId}")
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_CLAIMS_ANALYST','ROLE_CUSTOMER')")
-    public ResponseEntity<ComplaintDtoResponse> findById(@PathVariable UUID complaintId){
-        return  ResponseEntity.ok(complaintsService.findById(complaintId));
+    public ResponseEntity<ComplaintDtoResponse> findById(@PathVariable UUID complaintId) {
+        return ResponseEntity.ok(complaintsService.findById(complaintId));
     }
 
     @GetMapping("${path.claim.UUIDGenerate}")
     public ResponseEntity<String> UUIDGenerate() {
         return ResponseEntity.ok(UUID.randomUUID().toString());
     }
-
-
 
 }

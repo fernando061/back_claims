@@ -112,6 +112,8 @@ public class ClaimMapper {
         complaintDto.setStatus(complaint.getStatus());
         complaintDto.setUrlFile(complaint.getUrlFile());
         complaintDto.setClaimCode(complaint.getClaimCode());
+        complaintDto.setCompensationDescription(complaint.getCompensationDescription());
+        complaintDto.setCompensationName(complaint.getCompensationName());
         return complaintDto;
     }
 //EMPLOYEE MAPPER

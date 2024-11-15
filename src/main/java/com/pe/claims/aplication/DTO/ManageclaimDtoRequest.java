@@ -12,4 +12,6 @@ import java.util.UUID;
 public class ManageclaimDtoRequest {
     private UUID id;
     private String status;
+    private UUID compensationId;
+    private String email;
 }

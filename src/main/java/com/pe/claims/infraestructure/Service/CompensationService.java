@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CompensationService implements ICompensationService {
@@ -18,5 +19,13 @@ public class CompensationService implements ICompensationService {
     @Override
     public List<Compensation> findAll() {
         return compensationRepository.findAll();
+    }
+
+    @Override
+    public Compensation findById(UUID id) {
+        if(compensationRepository.findById(id).isPresent()){
+            return compensationRepository.findById(id).get();
+        }
+        throw  new RuntimeException("no se encontro ninguna compensation con este id");
     }
 }

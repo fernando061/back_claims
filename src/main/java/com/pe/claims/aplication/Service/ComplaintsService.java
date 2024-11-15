@@ -7,6 +7,7 @@ import com.pe.claims.core.Entities.Complaint;
 import com.pe.claims.core.Entities.FlightCustomer;
 import com.pe.claims.infraestructure.Repository.FlightCustomerRepository;
 import com.pe.claims.infraestructure.Service.ComplaintService;
+import com.pe.claims.infraestructure.Service.CustomerService;
 import com.pe.claims.infraestructure.Service.FlightCustomerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class ComplaintsService implements IcomplaintService {
 
     @Autowired
     private ClaimMapper claimMapper;
+
+    @Autowired
+    private CustomerService customrsService;
 
     @Autowired
     private ComplaintService complaintService;
@@ -52,7 +56,10 @@ public class ComplaintsService implements IcomplaintService {
 
             complaint.setFlightCustomer(flightCustomer);
             complaintService.ComplaintSave(complaint);
-            emailService.sendEmail(registerClaimDto.getEmail(), "Estimado pasajero;","Su reclamo fue registrado exitosamente",complaint.getClaimCode());
+            customrsService.updateCustomerEmail(registerClaimDto.getCustomerId(),registerClaimDto.getEmail());
+            emailService.sendEmail(registerClaimDto.getEmail(),
+                    "Estimado pasajero;","Su reclamo fue registrado exitosamente",
+                    complaint.getClaimCode());
             RegisterClaimDtoResponse registerDto = new RegisterClaimDtoResponse();
             registerDto.setClaimCode(claimCode);
             return registerDto;

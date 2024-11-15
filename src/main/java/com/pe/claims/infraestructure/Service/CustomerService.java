@@ -40,4 +40,9 @@ public class CustomerService extends  GenericService<Customer> implements ICusto
         var a =customerRepository.findAll().stream().toList();
         return a;
     }
+
+    @Override
+    public void updateCustomerEmail(UUID id, String newEmail) {
+        customerRepository.updateEmailById(id, newEmail);
+    }
 }
